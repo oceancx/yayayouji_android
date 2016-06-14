@@ -1,0 +1,10 @@
+*.sh
+/.gradle/
+/.idea/
+/build/
+/app/build/
+/gen/
+/OneKeyShare/build/
+/yayayouji_android.iml
+/gradlew
+/gradlew.bat

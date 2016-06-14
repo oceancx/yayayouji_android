@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="喜欢旅行，喜欢离开自己过腻歪的城市，喜欢在前进中学会体会和欣赏...或许该承认每次行前习惯性陷入“攻略泥沼”玩得过于按步就班...初次入滇之旅全权交由敏少打点，却也意外收获旅行中需要一些“流浪精神”，这种精神让人随遇而安，淡然一些，不过分担忧错过什么，哪怕走走停停，悠然享受和大自然的融合之乐。" />

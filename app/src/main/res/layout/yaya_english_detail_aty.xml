@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@color/violet" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="视频笔记"
+                android:textSize="28sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="莫斯伯格谈到了乔布斯最近发表的《对Flash的几点想法》(Thoughts on Flash)的公开信，“即使你的观点都正确，但不让消费者使用Flash公平吗？”乔布斯显然有不同的看法，“苹果不是世界上实力最雄厚的公司，我们成功的法定之一是选择正确、前景光明的技术。我们努力选择有活力的技术，如果能做出明智的选择，成功的机会就会更大”。
+
+　　乔布斯表示，苹果一直在选择技术。他指出，苹果是淘汰软驱和选用USB的第一家公司，“我们淘汰一些技术或选用有前途的技术时，人们就会认为我们很疯狂。Flash的黄金时代已经过去，HTML5是一种新兴的技术，视频画面质量更好，用户无需安装插件。尽管75%的网络视频都是Flash格式，但HTML5格式的视频也很多”。
+
+　　6:29：莫斯伯格问，开发者会受到影响吗？乔布斯表示，iPhone OS平台上的大量应用表明开发者没有受到多大影响。
+
+　　6:31：乔布斯说，“我们无意与Adobe争斗，是Adobe向我们挑衅，这也是我发表《对Flash的几点看法》公开信的原因。我们已经厌倦了Adobe在媒体上对我们的谴责。”
+
+　　6:32：莫斯伯格问，“用户需要Flash吗？他们会认为不支持Flash是iPad的一个缺陷吗？”乔布斯回答说，“我们只是努力开发优秀的产品，不认为Flash是一款优秀产品不可或缺的组成部分。我们将专注于优异的技术。我们成功了，产品会受到市场青睐。目前的迹象表明，用户喜欢iPad。我们每秒销售3台iPad。”
+
+　　6:35：莫斯伯格简述了新一代iPhone原型机资料现身Gizmodo的前因"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

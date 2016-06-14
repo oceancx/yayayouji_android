@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/ym_nav_menu_main_page"
+            android:checked="true"
+            android:title="@string/main_page" />
+
+
+        <item
+            android:id="@+id/ym_nav_menu_travel_note"
+            android:title="@string/travelnote" />
+        <item
+            android:id="@+id/ym_nav_menu_music"
+            android:title="@string/music" />
+        <item
+            android:id="@+id/ym_nav_menu_english_learning"
+            android:title="@string/english_learning" />
+    </group>
+</menu>

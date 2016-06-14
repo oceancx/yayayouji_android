@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#3291e0"
+    android:paddingLeft="14dp"
+    android:paddingTop="25dp">
+
+
+    <ImageButton
+        android:id="@+id/hp_face_imgbt"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:background="@drawable/white_circle"
+        android:foreground="@null"
+        android:src="@null" />
+
+    <TextView
+        android:id="@+id/hp_nickname_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="33dp"
+        android:layout_marginTop="90dp"
+        android:text="Ocean-藏心"
+        android:textColor="@android:color/white" />
+
+    <ImageButton
+        android:id="@+id/hp_exit_imgbt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:layout_marginRight="16dp"
+        android:background="@null"
+        android:src="@drawable/ic_exit_to_app_white_24dp" />
+
+</FrameLayout>
