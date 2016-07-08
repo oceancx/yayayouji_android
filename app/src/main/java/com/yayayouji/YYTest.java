@@ -1,4 +1,4 @@
-package com.yayayouji.test;
+package com.yayayouji;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import com.yayayouji.base.SingleStubActivity;
+import com.yayayouji.fragment.MainPageFragment;
 import com.yayayouji.global.Config;
 import com.yayayouji.util.DebugLog;
 
@@ -22,7 +24,7 @@ import java.util.Arrays;
 public class YYTest extends ListActivity {
 
     private String packageName = Config.packageName;
-    private String startActivityName = "YaYaMain";
+    private String startActivityName = "QuestionMainActivity";
 
 
     private ActivityInfo target;
@@ -31,6 +33,7 @@ public class YYTest extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //SingleStubActivity.start(this, MainPageFragment.class.getName());
         target = null;
         // TODO Auto-generated method stub
         ArrayList<String> activity_names = new ArrayList<String>();

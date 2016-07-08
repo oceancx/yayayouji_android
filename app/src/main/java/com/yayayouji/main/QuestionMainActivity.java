@@ -20,7 +20,7 @@ import com.yayayouji.base.BaseActivity;
 /**
  * Created by oceancx on 16/3/6.
  */
-public class QuestionMain extends BaseActivity {
+public class QuestionMainActivity extends BaseActivity {
 
     ActionBar ab;
     String title = "我想买一套FRESH，T字部位出油脱皮，两颊皮薄，毛孔有点大，应该买什么系列的？";
@@ -34,7 +34,7 @@ public class QuestionMain extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.question_main_aty);
+        setContentView(R.layout.question_main_activity);
 
         qm_rv = (RecyclerView) findViewById(R.id.qm_rv);
         mAdapter = new QuestionMainAdapter();
@@ -93,7 +93,7 @@ public class QuestionMain extends BaseActivity {
                     /**
                      * 进入问题详情页
                      */
-                    Intent intent = new Intent(QuestionMain.this, HomePageCardDetail.class);
+                    Intent intent = new Intent(QuestionMainActivity.this, HomePageCardDetail.class);
                     startActivity(intent);
                 }
             });

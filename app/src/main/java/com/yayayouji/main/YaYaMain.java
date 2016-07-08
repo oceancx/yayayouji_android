@@ -3,7 +3,6 @@ package com.yayayouji.main;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +22,8 @@ import android.view.ViewGroup;
 import com.yayayouji.R;
 import com.yayayouji.adapter.ImagePagerAdapter;
 import com.yayayouji.base.BaseActivity;
+import com.yayayouji.base.SingleStubActivity;
+import com.yayayouji.fragment.MainPageFragment;
 import com.yayayouji.module.english.YaYaEnglishFg;
 import com.yayayouji.module.music.YaYaMusicFg;
 import com.yayayouji.module.travelnote.fragment.YaYaTravelNoteFg;
@@ -52,6 +52,8 @@ public class YaYaMain extends BaseActivity {
     TabLayout ym_tablayout;
     String[] titles = {""};
 
+    String msg = "what the fuck";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +80,6 @@ public class YaYaMain extends BaseActivity {
         ym_view_pager.setAdapter(pagerAdapter);
         ym_tablayout = (TabLayout) findViewById(R.id.ym_tablayout);
         ym_tablayout.setupWithViewPager(ym_view_pager);
-
 
 
     }

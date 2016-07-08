@@ -16,11 +16,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/yaya_logo1"
         android:label="@string/app_name"
+        android:name=".YYApp"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
 
-        <activity android:name=".test.YYTest">
+        <activity android:name=".YYTest">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +31,7 @@
         <activity android:name=".YaYaYouJi" />
         <activity android:name=".main.HomePageActivity" />
         <activity android:name=".main.HomePageCardDetail" />
-        <activity android:name=".main.QuestionMain" />
+        <activity android:name=".main.QuestionMainActivity" />
         <activity android:name=".main.YaYaMain" />
         <activity android:name=".module.travelnote.YaYaTravelNote" />
         <activity android:name=".module.music.YaYaMusic" />
@@ -38,6 +39,7 @@
         <activity android:name=".module.travelnote.YaYaTravelNoteDetail" />
         <activity android:name=".module.english.YaYaEnglishDetail" />
         <activity android:name=".module.music.YaYaMusicDetail" />
+        <activity android:name=".base.SingleStubActivity" />
 
         <activity
             android:name="com.mob.tools.MobUIShell"
