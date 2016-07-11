@@ -24,7 +24,7 @@ import java.util.Arrays;
 public class YYTest extends ListActivity {
 
     private String packageName = Config.packageName;
-    private String startActivityName = "QuestionMainActivity";
+    private String startActivityName = "HomePageCardDetail2";
 
 
     private ActivityInfo target;

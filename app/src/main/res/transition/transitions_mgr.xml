@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionManager xmlns:android="http://schemas.android.com/apk/res/android">
+    <transition android:fromScene="@layout/home_card_detail2"
+        android:toScene="@layout/scene2"
+        android:transition="@transition/changebounds"/>
+    <transition android:fromScene="@layout/scene2"
+        android:toScene="@layout/home_card_detail2"
+        android:transition="@transition/changebounds"/>
+</transitionManager>
