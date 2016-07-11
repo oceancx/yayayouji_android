@@ -20,6 +20,18 @@ allprojects {
     }
 }
 
+
+ext {
+    buildToolsVersion = '24'
+    targetSdkVersion = 24
+    minSdkVersion = 15
+    androidSupportLibraryVersion = '24.0.0'
+    buglyVersion = '2.1.7'
+    // for ijkplayer
+    compileSdkVersion = targetSdkVersion
+}
+
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

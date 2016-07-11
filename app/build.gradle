@@ -2,15 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 android {
 
-    compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
-    buildToolsVersion project.BUILD_TOOLS_VERSION
+    compileSdkVersion rootProject.ext.targetSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.yayayouji"
-        minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
-        targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
-        versionCode Integer.parseInt(project.VERSION_CODE)
-        versionName project.VERSION_NAME
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode Integer.parseInt(VERSION_CODE)
+        versionName VERSION_NAME
     }
     buildTypes {
         release {
@@ -20,21 +20,16 @@ android {
     }
 }
 
-ext {
-    supportLibVersion = '23.4.0'
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile project(':OneKeyShare')
-    compile "com.android.support:appcompat-v7:${supportLibVersion}"
-    compile "com.android.support:support-v4:${supportLibVersion}"
-    compile "com.android.support:gridlayout-v7:${supportLibVersion}"
-    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
-    compile "com.android.support:cardview-v7:${supportLibVersion}"
-    compile "com.android.support:palette-v7:${supportLibVersion}"
-    compile "com.android.support:design:${supportLibVersion}"
+    compile "com.android.support:appcompat-v7:${rootProject.ext.androidSupportLibraryVersion}"
+    compile "com.android.support:support-v4:${rootProject.ext.androidSupportLibraryVersion}"
+    compile "com.android.support:gridlayout-v7:${rootProject.ext.androidSupportLibraryVersion}"
+    compile "com.android.support:recyclerview-v7:${rootProject.ext.androidSupportLibraryVersion}"
+    compile "com.android.support:cardview-v7:${rootProject.ext.androidSupportLibraryVersion}"
+    compile "com.android.support:palette-v7:${rootProject.ext.androidSupportLibraryVersion}"
+    compile "com.android.support:design:${rootProject.ext.androidSupportLibraryVersion}"
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
