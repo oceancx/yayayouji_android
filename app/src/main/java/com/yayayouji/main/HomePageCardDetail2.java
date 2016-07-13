@@ -26,7 +26,7 @@ public class HomePageCardDetail2 extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @BindView(R.id.title)
+    @BindView(R.id.zhihu_title)
     TextView mTitle;
 
     int mItemCount = 10;
