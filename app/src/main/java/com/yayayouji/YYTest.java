@@ -11,8 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.yayayouji.global.Config;
-import com.yayayouji.main.HomePageCardDetail;
-import com.yayayouji.util.DebugLog;
+import com.yayayouji.main.HomePageCardDetail2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +25,7 @@ public class YYTest extends ListActivity {
     private String startActivityName = "HomePageCardDetail";
 
 
-    private Class<?> target = HomePageCardDetail.class;
+    private Class<?> target = HomePageCardDetail2.class;
     private ArrayList<ActivityInfo> mActivities;
 
     @Override

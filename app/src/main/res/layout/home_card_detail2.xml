@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="#e1e6eb">
 
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="200dp">
@@ -53,13 +54,19 @@
         android:textStyle="bold"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="40dp"
-        android:clipToPadding="false"
-        android:paddingBottom="8dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:clipToPadding="false"
+            android:paddingBottom="8dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.design.widget.CoordinatorLayout>

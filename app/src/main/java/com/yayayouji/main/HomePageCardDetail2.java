@@ -3,7 +3,9 @@ package com.yayayouji.main;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +21,7 @@ import com.yayayouji.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by oceancx on 16/7/10.
@@ -34,8 +37,35 @@ public class HomePageCardDetail2 extends BaseActivity {
     @BindView(R.id.zhihu_title)
     TextView mTitle;
 
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
     int mItemCount = 10;
 
+
+    @OnClick(R.id.zhihu_title)
+    public void onTitleClick() {
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        mSwipeRefreshLayout.setRefreshing(true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mSwipeRefreshLayout.setRefreshing(false);
+                            mItemCount += 10;
+                            mRecycler.getAdapter().notifyDataSetChanged();
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
 
     @Override
     protected void onDestroy() {
@@ -84,6 +114,30 @@ public class HomePageCardDetail2 extends BaseActivity {
 
         });
         mRecycler.setAdapter(new AnswerAdapter());
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        mItemCount += 10;
+                        mRecycler.getAdapter().notifyDataSetChanged();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }.execute();
+            }
+        });
 
     }
 
