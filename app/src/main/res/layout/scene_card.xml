@@ -55,14 +55,16 @@
             android:background="#dcdcdc" />
 
 
-        <android.support.design.widget.FloatingActionButton
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/fab"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="-16dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_arrow_up_white_18dp"
+            android:background="@drawable/white_circle"
+            android:elevation="4dp"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_keyboard_arrow_up_black_18dp"
             android:visibility="invisible" />
 
         <LinearLayout

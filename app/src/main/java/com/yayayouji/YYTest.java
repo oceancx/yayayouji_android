@@ -10,9 +10,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import com.yayayouji.base.SingleStubActivity;
-import com.yayayouji.fragment.MainPageFragment;
 import com.yayayouji.global.Config;
+import com.yayayouji.main.HomePageCardDetail;
 import com.yayayouji.util.DebugLog;
 
 import java.util.ArrayList;
@@ -24,15 +23,17 @@ import java.util.Arrays;
 public class YYTest extends ListActivity {
 
     private String packageName = Config.packageName;
-    private String startActivityName = "HomePageCardDetail2";
+    private String startActivityName = "HomePageCardDetail";
 
 
-    private ActivityInfo target;
+    private Class<?> target = HomePageCardDetail.class;
     private ArrayList<ActivityInfo> mActivities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startActivity(new Intent(this, target));
+        if (true) return;
         //SingleStubActivity.start(this, MainPageFragment.class.getName());
         target = null;
         // TODO Auto-generated method stub
@@ -48,13 +49,12 @@ public class YYTest extends ListActivity {
 
             for (int i = 0; i < allActivities.size(); i++) {
                 String name = allActivities.get(i).name;
-                if (name.equals("startActivityName")) continue;
+                if (name.equals(startActivityName)) continue;
                 mActivities.add(allActivities.get(i));
                 activity_names.add(name.substring(name.lastIndexOf(".") + 1, name.length()));
 
                 if (name.contains(startActivityName)) {
 
-                    target = allActivities.get(i);
 
                 }
             }
@@ -82,8 +82,8 @@ public class YYTest extends ListActivity {
         });
         if (target != null) {
             Intent intent = new Intent();
-            intent.setClassName(packageName, target.name);
-            DebugLog.e(packageName + " " + target.name);
+//            intent.setClassName(packageName, target.name);
+//            DebugLog.e(packageName + " " + target.name);
             startActivity(intent);
         }
     }
