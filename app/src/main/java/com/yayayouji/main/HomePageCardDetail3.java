@@ -1,28 +1,17 @@
 package com.yayayouji.main;
 
-import android.annotation.TargetApi;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.text.style.URLSpan;
-import android.transition.ChangeBounds;
-import android.transition.Transition;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,58 +22,26 @@ import com.yayayouji.base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by oceancx on 16/7/10.
+ * Created by oceancx on 16/7/16.
  */
-public class HomePageCardDetail2 extends BaseActivity {
+public class HomePageCardDetail3 extends BaseActivity {
 
     @BindView(R.id.recycler)
     RecyclerView mRecycler;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @BindView(R.id.zhihu_title)
+    TextView mTitle;
+
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    @BindView(R.id.card_part2)
-    ViewGroup mCardPart2;
-
-    CircleImageView mFab;
-
-    @BindView(R.id.question_body)
-    TextView mQuestionBody;
-
-    @BindView(R.id.scene_root)
-    ViewGroup mSceneRoot;
-
-    @BindView(R.id.scene_card)
-    ViewGroup mSceneCard;
-
-    Transition mChangeBoundsTransition;
-    boolean toggle = false;
-
-    int right, top, bottom, left;
-
-
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.zhihu_title)
-    TextView mZhihuTitle;
-
-
     int mItemCount = 10;
 
-    SpannableString genSpan(String origin_str) {
-        SpannableString sstr;
-        sstr = new SpannableString(origin_str);
-        sstr.setSpan(new URLSpan("") {
-            @Override
-            public void onClick(View widget) {
-                onTopButtonClick();
-            }
-        }, origin_str.length() - 4, origin_str.length(), Spanned.SPAN_MARK_MARK);
-        return sstr;
-    }
 
     @OnClick(R.id.zhihu_title)
     public void onTitleClick() {
@@ -116,55 +73,11 @@ public class HomePageCardDetail2 extends BaseActivity {
         ButterKnife.bind(this).unbind();
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_card_detail2);
+        setContentView(R.layout.home_card_detail3);
         ButterKnife.bind(this);
-
-        mFab = (CircleImageView) findViewById(R.id.fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onTopButtonClick();
-            }
-        });
-
-        mChangeBoundsTransition = new ChangeBounds();
-        mQuestionBody.setText(genSpan(getString(R.string.zhihu_body1)));
-        mQuestionBody.setMovementMethod(LinkMovementMethod.getInstance());
-
-        left = mQuestionBody.getPaddingLeft();
-        right = mQuestionBody.getPaddingRight();
-        top = mQuestionBody.getPaddingTop();
-        bottom = mQuestionBody.getPaddingBottom();
-        mChangeBoundsTransition.addListener(new Transition.TransitionListener() {
-            @Override
-            public void onTransitionStart(Transition transition) {
-                mQuestionBody.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onTransitionEnd(Transition transition) {
-                mQuestionBody.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onTransitionCancel(Transition transition) {
-
-            }
-
-            @Override
-            public void onTransitionPause(Transition transition) {
-
-            }
-
-            @Override
-            public void onTransitionResume(Transition transition) {
-
-            }
-        });
 
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
         mRecycler.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -187,7 +100,7 @@ public class HomePageCardDetail2 extends BaseActivity {
                     paint = new Paint(Paint.ANTI_ALIAS_FLAG);
                     paint.setColor(0xffdcdcdc);
                 }
-                for (int i = 1; i < parent.getChildCount() - 1; i++) {
+                for (int i = 0; i < parent.getChildCount() - 1; i++) {
                     View child = parent.getChildAt(i);
                     RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) child.getLayoutParams();
                     int top = child.getBottom() + p.bottomMargin;
@@ -226,74 +139,7 @@ public class HomePageCardDetail2 extends BaseActivity {
                 }.execute();
             }
         });
-        mSceneRoot.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                mSceneRoot.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mSceneCard.getLayoutParams();
-                params.topMargin = mZhihuTitle.getBottom();
-                mSceneCard.setLayoutParams(params);
 
-                int padleft, padright, padbottom, padtop;
-                padleft = mRecycler.getPaddingLeft();
-                padright = mRecycler.getPaddingRight();
-                padbottom = mRecycler.getPaddingBottom();
-                padtop = mRecycler.getPaddingTop() + mZhihuTitle.getBottom() + mSceneCard.getMeasuredHeight();
-                mRecycler.setPadding(padleft, padtop, padright, padbottom);
-                mRecycler.scrollToPosition(0);
-                mRecycler.invalidate();
-
-
-            }
-        });
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public void onTopButtonClick() {
-        if (toggle) {
-            mFab.setVisibility(View.INVISIBLE);
-//            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mSceneCard.getLayoutParams();
-//            params.addRule(RelativeLayout.BELOW, R.id.zhihu_title);
-//            mSceneCard.setLayoutParams(params);
-
-            mCardPart2.removeView(mQuestionBody);
-            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mSceneCard.getLayoutParams();
-            params.topMargin = mZhihuTitle.getBottom();
-            mSceneCard.setLayoutParams(params);
-
-            mQuestionBody.setTextAppearance(this, android.R.style.TextAppearance_Material_Body1);
-            mQuestionBody.setText(genSpan(getString(R.string.zhihu_body1)));
-
-            mQuestionBody.setPadding(left, top, right, bottom);
-
-            TransitionManager.beginDelayedTransition(mSceneRoot, mChangeBoundsTransition);
-            mCardPart2.addView(mQuestionBody);
-        } else {
-            mFab.setVisibility(View.VISIBLE);
-
-//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mSceneCard.getLayoutParams();
-//            params.addRule(RelativeLayout.BELOW, R.id.toolbar);
-//            mSceneCard.setLayoutParams(params);
-
-//            mSceneCard.setTop(mToolbar.getBottom());
-
-            mCardPart2.removeView(mQuestionBody);
-            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mSceneCard.getLayoutParams();
-            params.topMargin = mToolbar.getBottom();
-            mSceneCard.setLayoutParams(params);
-            mQuestionBody.setTextAppearance(this, android.R.style.TextAppearance_Material_Title);
-            mQuestionBody.setText(R.string.qm_content);
-            mQuestionBody.setPadding(left, top + 16 * 3, right, bottom + 16 * 3);
-            int left = mQuestionBody.getPaddingLeft();
-            int right = mQuestionBody.getPaddingRight();
-            int top = mQuestionBody.getPaddingTop();
-            int bottom = mQuestionBody.getPaddingBottom();
-            mQuestionBody.setPadding(left, top, right, bottom);
-
-            TransitionManager.beginDelayedTransition(mSceneRoot, mChangeBoundsTransition);
-            mCardPart2.addView(mQuestionBody);
-        }
-        toggle = !toggle;
     }
 
     private class AnswerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -307,7 +153,7 @@ public class HomePageCardDetail2 extends BaseActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder vh, int position) {
             if (getItemViewType(position) == TYPE_ITEM) {
-                VH holder = (VH) vh;
+                VH holder= (VH) vh;
                 Glide.with(holder.imageView.getContext()).load(urls[position % urls.length]).into(holder.imageView);
             }
         }
@@ -316,7 +162,7 @@ public class HomePageCardDetail2 extends BaseActivity {
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             if (viewType == TYPE_HEAD) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_question_count, parent, false);
-                return new HeaderVH(view);
+                return new HeaderVH( view);
             } else if (viewType == TYPE_ITEM) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.answer_item, parent, false);
                 return new VH(view);

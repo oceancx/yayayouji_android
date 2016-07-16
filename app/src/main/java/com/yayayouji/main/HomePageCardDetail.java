@@ -54,7 +54,6 @@ public class HomePageCardDetail extends AppCompatActivity {
     Transition mChangeBoundsTransition;
     boolean toggle = false;
 
-
     int right, top, bottom, left;
 
     SpannableString genSpan(String origin_str) {
@@ -84,8 +83,8 @@ public class HomePageCardDetail extends AppCompatActivity {
             }
         });
 
-        mChangeBoundsTransition = new ChangeBounds();
 
+        mChangeBoundsTransition = new ChangeBounds();
         mQuestionBody.setText(genSpan(getString(R.string.zhihu_body1)));
         mQuestionBody.setMovementMethod(LinkMovementMethod.getInstance());
 
@@ -130,6 +129,7 @@ public class HomePageCardDetail extends AppCompatActivity {
             mFab.setVisibility(View.INVISIBLE);
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mSceneCard.getLayoutParams();
             params.addRule(RelativeLayout.BELOW, R.id.zhihu_title);
+
             mSceneCard.setLayoutParams(params);
             mCardPart2.removeView(mQuestionBody);
             mQuestionBody.setTextAppearance(this, android.R.style.TextAppearance_Material_Body1);
@@ -145,6 +145,7 @@ public class HomePageCardDetail extends AppCompatActivity {
             params.addRule(RelativeLayout.BELOW, R.id.toolbar);
             mSceneCard.setLayoutParams(params);
             mCardPart2.removeView(mQuestionBody);
+
             mQuestionBody.setTextAppearance(this, android.R.style.TextAppearance_Material_Title);
             mQuestionBody.setText(R.string.qm_content);
             mQuestionBody.setPadding(left, top + 16 * 3, right, bottom + 16 * 3);
