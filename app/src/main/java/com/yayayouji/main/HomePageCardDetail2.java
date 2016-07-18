@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,9 +21,11 @@ import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,6 +63,9 @@ public class HomePageCardDetail2 extends BaseActivity {
     @BindView(R.id.scene_card)
     ViewGroup mSceneCard;
 
+    @BindView(R.id.bottom_layer)
+    FrameLayout mBottomLayer;
+
     Transition mChangeBoundsTransition;
     boolean toggle = false;
 
@@ -71,6 +77,8 @@ public class HomePageCardDetail2 extends BaseActivity {
     @BindView(R.id.zhihu_title)
     TextView mZhihuTitle;
 
+
+    View part1, part2, part3;
 
     int mItemCount = 10;
 
@@ -116,12 +124,22 @@ public class HomePageCardDetail2 extends BaseActivity {
         ButterKnife.bind(this).unbind();
     }
 
+
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_card_detail2);
         ButterKnife.bind(this);
+
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        mToolbar.setTitle("");
+        part1 = mBottomLayer;
+        part2 = mSceneCard;
+        part3 = mRecycler;
 
         mFab = (CircleImageView) findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
@@ -230,6 +248,7 @@ public class HomePageCardDetail2 extends BaseActivity {
             @Override
             public void onGlobalLayout() {
                 mSceneRoot.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
                 CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mSceneCard.getLayoutParams();
                 params.topMargin = mZhihuTitle.getBottom();
                 mSceneCard.setLayoutParams(params);
@@ -241,11 +260,14 @@ public class HomePageCardDetail2 extends BaseActivity {
                 padtop = mRecycler.getPaddingTop() + mZhihuTitle.getBottom() + mSceneCard.getMeasuredHeight();
                 mRecycler.setPadding(padleft, padtop, padright, padbottom);
                 mRecycler.scrollToPosition(0);
-                mRecycler.invalidate();
-
-
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.question_main_menu, menu);
+        return true;
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
@@ -281,6 +303,7 @@ public class HomePageCardDetail2 extends BaseActivity {
             CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mSceneCard.getLayoutParams();
             params.topMargin = mToolbar.getBottom();
             mSceneCard.setLayoutParams(params);
+
             mQuestionBody.setTextAppearance(this, android.R.style.TextAppearance_Material_Title);
             mQuestionBody.setText(R.string.qm_content);
             mQuestionBody.setPadding(left, top + 16 * 3, right, bottom + 16 * 3);
