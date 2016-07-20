@@ -22,11 +22,13 @@ import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -184,7 +186,9 @@ public class HomePageCardDetail2 extends BaseActivity {
             }
         });
 
-        mRecycler.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager lm = new LinearLayoutManager(this);
+
+        mRecycler.setLayoutManager(lm);
         mRecycler.addItemDecoration(new RecyclerView.ItemDecoration() {
 
             Paint paint;
@@ -217,6 +221,12 @@ public class HomePageCardDetail2 extends BaseActivity {
                 }
             }
 
+        });
+        mRecycler.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
         });
         mRecycler.setAdapter(new AnswerAdapter());
         mSwipeRefreshLayout.setEnabled(false);
@@ -253,13 +263,10 @@ public class HomePageCardDetail2 extends BaseActivity {
                 params.topMargin = mZhihuTitle.getBottom();
                 mSceneCard.setLayoutParams(params);
 
-                int padleft, padright, padbottom, padtop;
-                padleft = mRecycler.getPaddingLeft();
-                padright = mRecycler.getPaddingRight();
-                padbottom = mRecycler.getPaddingBottom();
-                padtop = mRecycler.getPaddingTop() + mZhihuTitle.getBottom() + mSceneCard.getMeasuredHeight();
-                mRecycler.setPadding(padleft, padtop, padright, padbottom);
-                mRecycler.scrollToPosition(0);
+                FrameLayout ll = (FrameLayout) mRecycler.findViewHolderForAdapterPosition(0).itemView;
+                ViewGroup.LayoutParams lp = ll.getLayoutParams();
+                lp.height = mZhihuTitle.getBottom() + mSceneCard.getMeasuredHeight() + ll.getChildAt(0).getMeasuredHeight() + 16 * 3;
+
             }
         });
     }
@@ -368,6 +375,12 @@ public class HomePageCardDetail2 extends BaseActivity {
         public VH(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.face);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
     }
 
@@ -375,6 +388,12 @@ public class HomePageCardDetail2 extends BaseActivity {
 
         public HeaderVH(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
     }
 }

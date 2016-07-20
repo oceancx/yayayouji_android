@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
+    android:clickable="true"
     app:cardCornerRadius="0dp">
 
     <LinearLayout
@@ -61,8 +62,8 @@
             <TextView
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="264dp"
-
                 android:layout_height="match_parent"
+
                 android:layout_marginRight="16dp"
                 android:lineSpacingExtra="2dp"
                 android:maxLines="4"

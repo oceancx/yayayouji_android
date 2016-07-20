@@ -11,6 +11,7 @@ import android.support.v4.widget.ScrollerCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -25,83 +26,55 @@ public class LayerTopBehavior extends CoordinatorLayout.Behavior<View> {
 
     private static final int DIRECTION_UP = 1;
     private static final int DIRECTION_DOWN = -1;
+    private int mScrollingDirection;
 
-    int mInitChildTop;
+
     TextView mZhihuTitle;
     View mBottomLayer;
     Toolbar mToolbar;
-    /* Tracking direction of user motion */
-    private int mScrollingDirection;
-    /* Tracking last threshold crossed */
-    private int mScrollTrigger;
-    /* Accumulated scroll distance */
-    private int mScrollDistance;
-    /* Distance threshold to trigger animation */
-    private int mScrollThreshold;
+    private RecyclerView mDenpendencyView;
+
+
     private int mInitialOffset;
     private int mInitialBottomOffset;
+
     private ScrollerCompat mScroller;
     private FlingRunnable mFlingRunnable;
     private ObjectAnimator mAnimator;
-    private RecyclerView mDenpendencyView;
     private boolean firstLayout = true;
-    private View divider;
+
+    private int toolbar_h;
+    private int mMinOffset, mMaxOffset;
+
 
     public LayerTopBehavior() {
-
     }
 
     public LayerTopBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    //Attempt to fling and return if successfully started
-    private boolean fling(CoordinatorLayout parent, View layout,
-                          int minOffset, int maxOffset, float velocityY) {
-        if (mFlingRunnable != null) {
-            layout.removeCallbacks(mFlingRunnable);
-        }
-
-        if (mScroller == null) {
-            mScroller = ScrollerCompat.create(layout.getContext());
-        }
-
-        mScroller.fling(
-                0, layout.getTop(), // curr
-                0, Math.round(velocityY), // velocity.
-                0, 0, // x
-                minOffset, maxOffset); // y
-
-        if (mScroller.computeScrollOffset()) {
-            mFlingRunnable = new FlingRunnable(parent, layout);
-            ViewCompat.postOnAnimation(layout, mFlingRunnable);
-            return true;
-        } else {
-            mFlingRunnable = null;
-            return false;
-        }
-    }
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
         if (dependency instanceof RecyclerView) {
             mDenpendencyView = (RecyclerView) dependency;
-            return true;
         }
-        return false;
+        return super.layoutDependsOn(parent, child, dependency);
     }
 
     @Override
     public boolean onLayoutChild(CoordinatorLayout parent, View child, int layoutDirection) {
 
         if (firstLayout) {
-            mInitialOffset = 397;
-            DebugLog.e("offset : " + mInitialOffset);
             mZhihuTitle = (TextView) parent.findViewById(R.id.zhihu_title);
+            mInitialOffset = mZhihuTitle.getBottom();
             mBottomLayer = parent.findViewById(R.id.bottom_layer_bg);
             mInitialBottomOffset = mBottomLayer.getTop();
             mToolbar = (Toolbar) parent.findViewById(R.id.toolbar);
+            toolbar_h = mToolbar.getMeasuredHeight();
             firstLayout = false;
+
         }
         return false;
     }
@@ -122,48 +95,50 @@ public class LayerTopBehavior extends CoordinatorLayout.Behavior<View> {
 
     @Override
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dx, int dy, int[] consumed) {
-        DebugLog.e("dy:" + dy);
-        //Determine direction changes here
+
         if (dy > 0 && mScrollingDirection != DIRECTION_UP) {
             mScrollingDirection = DIRECTION_UP;
-            mScrollDistance = 0;
         } else if (dy < 0 && mScrollingDirection != DIRECTION_DOWN) {
             mScrollingDirection = DIRECTION_DOWN;
-            mScrollDistance = 0;
         }
-        DebugLog.e("initoffset:" + mInitialOffset);
-        if (child.getTop() <= 56 * 3) {
-            toggleToolbar(true);
-        } else
-            toggleToolbar(false);
-        int totaloff = mInitialOffset - mToolbar.getHeight();
-        float toff = clamp(mInitialOffset - child.getTop(), 0, totaloff);
-        mZhihuTitle.setAlpha(1 - toff / totaloff);
+
+        int top = child.getTop();
+        toggleToolbar(top);
+        zhihuTitleSetAlpha(top);
+
+//        scroll(child, dy,
+//                toolbar_h - child.getHeight(),
+//                mInitialOffset);
 
         if (dy > 0) {
             scroll(child, dy,
-                    56 * 3 - child.getHeight(),
+                    toolbar_h - child.getHeight(),
                     mInitialOffset);
-            scroll(mBottomLayer, (int) (dy / 3.0 * 2), 56 * 3 - mBottomLayer.getHeight(), mInitialBottomOffset);
+//            scroll(mBottomLayer, (int) (dy / 3.0 * 2), toolbar_h - mBottomLayer.getHeight(), mInitialBottomOffset);
         } else {
             RecyclerView.ViewHolder vh = mDenpendencyView.findViewHolderForAdapterPosition(1);
             if (vh != null && vh.itemView != null) {
-
                 int dtop = vh.itemView.getTop();
-                if (dtop + 180 >= 56 * 3) {
+                if (dtop + 180 >= toolbar_h) {
                     scroll(child, dy,
-                            56 * 3 - child.getHeight(),
+                            toolbar_h - child.getHeight(),
                             mInitialOffset);
-                    scroll(mBottomLayer, (int) (dy / 3.0 * 2), 56 * 3 - mBottomLayer.getHeight(), mInitialBottomOffset);
+//                    scroll(mBottomLayer, (int) (dy / 3.0 * 2), toolbar_h - mBottomLayer.getHeight(), mInitialBottomOffset);
                 }
             }
-
         }
-//        //When not at the top, consume all scrolling for the card
-//        consumed[1] = scroll(child, dy,
-//                56 * 3 - child.getHeight(),
-//                child.getTop());
+    }
 
+
+    private void zhihuTitleSetAlpha(int top) {
+        int totaloff = mInitialOffset - toolbar_h;
+        float toff = clamp(mInitialOffset - top, 0, totaloff);
+        mZhihuTitle.setAlpha(1 - toff / totaloff);
+
+    }
+
+    private void toggleToolbar(int top) {
+        toggleToolbar(top <= toolbar_h);
     }
 
     //Scroll the view and return back the actual distance scrolled
@@ -189,38 +164,91 @@ public class LayerTopBehavior extends CoordinatorLayout.Behavior<View> {
 
     @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-        DebugLog.e("dyUnconsumed:" + dyUnconsumed);
+
 //        scroll(child, dyUnconsumed,
-//                56 * 3 - child.getHeight(),
-//                child.getTop());
-        DebugLog.e("initoffset:" + mInitialOffset);
+//                toolbar_h - child.getHeight(),
+//                mInitialOffset);
 
-        int totaloff = mInitialOffset - mToolbar.getHeight();
-        float toff = clamp(mInitialOffset - child.getTop(), 0, totaloff);
-        mZhihuTitle.setAlpha(1 - toff / totaloff);
-        if (child.getTop() <= 56 * 3) {
-            toggleToolbar(true);
-        } else
-            toggleToolbar(false);
+        int top = child.getTop();
+        toggleToolbar(top);
+        zhihuTitleSetAlpha(top);
+        if (mFlingRunnable != null) {
+            child.removeCallbacks(mFlingRunnable);
+        }
+        if (dyUnconsumed > 0) {
+            scroll(child, dyUnconsumed,
+                    toolbar_h - child.getHeight(),
+                    mInitialOffset);
+            scroll(mBottomLayer, (int) (dyUnconsumed / 3.0 * 2), toolbar_h - mBottomLayer.getHeight(), mInitialBottomOffset);
+        } else {
+            RecyclerView.ViewHolder vh = mDenpendencyView.findViewHolderForAdapterPosition(1);
+            if (vh != null && vh.itemView != null) {
+                int dtop = vh.itemView.getTop();
+                if (dtop + 180 >= toolbar_h) {
+                    scroll(child, dyUnconsumed,
+                            toolbar_h - child.getHeight(),
+                            mInitialOffset);
+                    scroll(mBottomLayer, (int) (dyUnconsumed / 3.0 * 2), toolbar_h - mBottomLayer.getHeight(), mInitialBottomOffset);
+                }
+            }
+        }
+    }
 
-//        if (dyUnconsumed > 0) {
-//            scroll(child, dyUnconsumed,
-//                    56 * 3 - child.getHeight(),
-//                    mInitialOffset);
-//            scroll(mBottomLayer, (int) (dyUnconsumed / 3.0 * 2), 56 * 3 - mBottomLayer.getHeight(), mInitialBottomOffset);
-//        } else {
-//            RecyclerView.ViewHolder vh = mDenpendencyView.findViewHolderForAdapterPosition(1);
-//            if (vh != null && vh.itemView != null) {
-//                int dtop = vh.itemView.getTop();
-//                if (dtop + 180 >= 56 * 3) {
-//                    scroll(child, dyUnconsumed,
-//                            56 * 3 - child.getHeight(),
-//                            mInitialOffset);
-//                    scroll(mBottomLayer, (int) (dyUnconsumed / 3.0 * 2), 56 * 3 - mBottomLayer.getHeight(), mInitialBottomOffset);
-//                }
-//            }
-//
-//        }
+    @Override
+    public boolean onTouchEvent(CoordinatorLayout parent, View child, MotionEvent ev) {
+        return super.onTouchEvent(parent, child, ev);
+    }
+
+    @Override
+    public boolean onNestedPreFling(CoordinatorLayout coordinatorLayout, View child, View target, float velocityX, float velocityY) {
+
+
+//        fling(coordinatorLayout,
+//                child,
+//                toolbar_h - child.getHeight(),
+//                mInitialOffset,
+//                -velocityY);
+        return false;
+    }
+
+    @Override
+    public boolean onNestedFling(CoordinatorLayout coordinatorLayout, View child, View target, float velocityX, float velocityY, boolean consumed) {
+        return fling(coordinatorLayout,
+                child,
+                toolbar_h - child.getHeight(),
+                mInitialOffset,
+                -velocityY);
+
+    }
+
+
+    //Attempt to fling and return if successfully started
+    private boolean fling(CoordinatorLayout parent, View layout,
+                          int minOffset, int maxOffset, float velocityY) {
+        if (mFlingRunnable != null) {
+            layout.removeCallbacks(mFlingRunnable);
+        }
+
+        if (mScroller == null) {
+            mScroller = ScrollerCompat.create(layout.getContext());
+        }
+
+        mScroller.fling(
+                0, layout.getTop(), // curr
+                0, Math.round(velocityY), // velocity.
+                0, 0, // x
+                minOffset, maxOffset); // y
+
+        if (mScroller.computeScrollOffset()) {
+//            toggleToolbar(layout.getTop());
+            mFlingRunnable = new FlingRunnable(parent, layout);
+            ViewCompat.postOnAnimation(layout, mFlingRunnable);
+            return true;
+        } else {
+//            toggleToolbar(layout.getTop());
+            mFlingRunnable = null;
+            return false;
+        }
     }
 
 
@@ -261,7 +289,6 @@ public class LayerTopBehavior extends CoordinatorLayout.Behavior<View> {
             if (mLayout != null && mScroller != null && mScroller.computeScrollOffset()) {
                 int delta = mScroller.getCurrY() - mLayout.getTop();
                 mLayout.offsetTopAndBottom(delta);
-                //  shiftSiblings(mParent, mLayout, -delta);
 
                 // Post ourselves so that we run on the next animation
                 ViewCompat.postOnAnimation(mLayout, this);

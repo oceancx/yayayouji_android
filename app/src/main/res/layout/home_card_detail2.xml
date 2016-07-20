@@ -19,8 +19,8 @@
             android:layout_height="wrap_content">
 
             <View
-                android:layout_width="match_parent"
                 android:id="@+id/bottom_layer_bg"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:background="@color/colorPrimary" />
 
@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="56dp"
+                android:clickable="true"
                 android:paddingLeft="48dp"
                 android:paddingRight="30dp"
                 android:text="@string/zhihu_tilte"
@@ -42,6 +43,7 @@
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clickable="true"
             android:clipToPadding="false"
             android:paddingBottom="8dp" />
 
