@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
  * Created by oceancx on 16/7/16.
  */
 public class LayerBottom extends FrameLayout {
+
     public LayerBottom(Context context) {
         super(context);
     }

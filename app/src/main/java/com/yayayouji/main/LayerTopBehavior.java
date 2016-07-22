@@ -28,7 +28,6 @@ public class LayerTopBehavior extends CoordinatorLayout.Behavior<View> {
     private static final int DIRECTION_DOWN = -1;
     private int mScrollingDirection;
 
-
     TextView mZhihuTitle;
     View mBottomLayer;
     Toolbar mToolbar;
@@ -65,7 +64,6 @@ public class LayerTopBehavior extends CoordinatorLayout.Behavior<View> {
 
     @Override
     public boolean onLayoutChild(CoordinatorLayout parent, View child, int layoutDirection) {
-
         if (firstLayout) {
             mZhihuTitle = (TextView) parent.findViewById(R.id.zhihu_title);
             mInitialOffset = mZhihuTitle.getBottom();

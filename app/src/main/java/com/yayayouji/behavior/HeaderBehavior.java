@@ -1,4 +1,4 @@
-package com.yayayouji.main;
+package com.yayayouji.behavior;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 /**
- * Created by oceancx on 2016/7/19.
+ * Created by oceancx on 2016/7/22.
  */
 abstract class HeaderBehavior<V extends View> extends ViewOffsetBehavior<V> {
 
@@ -175,7 +175,7 @@ abstract class HeaderBehavior<V extends View> extends ViewOffsetBehavior<V> {
         return true;
     }
 
-    public int setHeaderTopBottomOffset(CoordinatorLayout parent, V header, int newOffset) {
+    int setHeaderTopBottomOffset(CoordinatorLayout parent, V header, int newOffset) {
         return setHeaderTopBottomOffset(parent, header, newOffset,
                 Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
@@ -198,16 +198,6 @@ abstract class HeaderBehavior<V extends View> extends ViewOffsetBehavior<V> {
         }
 
         return consumed;
-    }
-
-    private static class MathUtils {
-        static int constrain(int amount, int low, int high) {
-            return amount < low ? low : (amount > high ? high : amount);
-        }
-
-        static float constrain(float amount, float low, float high) {
-            return amount < low ? low : (amount > high ? high : amount);
-        }
     }
 
     int getTopBottomOffsetForScrollingSibling() {

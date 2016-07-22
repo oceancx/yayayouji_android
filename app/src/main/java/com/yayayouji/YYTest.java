@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.yayayouji.global.Config;
+import com.yayayouji.main.AppBarLayoutActivity;
 import com.yayayouji.main.HomePageCardDetail2;
 
 import java.util.ArrayList;
